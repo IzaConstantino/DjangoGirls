@@ -1,0 +1,66 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=')
+    title= title
+    link(rel='stylesheet', href='/bootstrap/css/bootstrap.min.css')
+    link(rel='stylesheet', href='/bootstrap/css/bootstrap-theme.min.css')
+    link(rel='stylesheet', href='/bootstrap/css/theme.css')
+  body
+    nav.navbar.navbar-inverse.navbar-fixed-top
+      .container
+        .navbar-header
+          button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
+            span.sr-only Toggle navigation
+            span.icon-bar 
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand(href='/') Kalivonô Web - Admin
+        #navbar.navbar-collapse.collapse
+          ul.nav.navbar-nav
+            li
+              a(href='/termo/novo') Novo termo
+           ul.nav.navbar-nav.navbar-right
+            li
+              a#botao.btn.btn(onclick="logout()") Logout &nbsp
+                 span.glyphicon.glyphicon-log-out    
+          ul.nav.navbar-nav.navbar-right
+            li
+              a(href='/register') *Cadastrar*
+                 span.glyphicon.glyphicon-user
+          ul.nav.navbar-nav.navbar-right
+            li
+              a(href='form/login') Entrar 
+                 span.glyphicon.glyphicon-user 
+         
+          //- ul.navbar-nav.navbar-right
+          //-     a#botao.btn.btn-default.btn-lg(href='/usuario') Entrar 
+          //-       span.glyphicon.glyphicon-user 
+                    
+    .container.theme-showcase(role='main')
+      block content
+
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js')
+    script(src='/bootstrap/js/bootstrap.min.js')
+    script(src='/bootstrap/js/docs.min.js')
+    script(src='/javascripts/soundcloud.js')    
+    script(src="https://connect.soundcloud.com/sdk/sdk-3.1.2.js")
+    script(src='/javascripts/jquery-3.2.1.min.js')
+    script(src='/javascripts/cadastrotermo.js')
+    script(src='/javascript/autenticacao.js')
+    script.
+      var chamaPaginaInicial = function(){
+        var token = window.localStorage.getItem("token")
+        if (token) {
+          window.location.href = '/' + token
+        } else {
+          window.location = "/form/login"
+        }
+      }
+
+      var logout = function(){
+        window.localStorage.clear()
+        window.location = "/index"
+      }
+      

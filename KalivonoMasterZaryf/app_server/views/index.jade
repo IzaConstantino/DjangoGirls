@@ -1,0 +1,53 @@
+extends layout
+
+block content 
+  .jumbotron  
+    h1 Termos cadastrados
+    .col-md-2
+    p=mensagem 
+    .col-md-6
+      input#pesquisa.form-control(type='search',for="emPortugues", name="pesquisa", placeholder='Digite sua busca',required="true")
+     a#botao.btn.btn-default.glyphicon.glyphicon-search(onclick="buscaTermoPortugues()")  Pesquisar
+     
+
+  if mensagemAdicional
+    if sucesso       
+      .alert.alert-success=mensagemAdicional
+    else
+      .alert.alert-danger=mensagemAdicional
+   if token
+    script(type='text/javascript').
+        window.localStorage.setItem('token', '#{token.token}')    
+  
+  .col-md-6
+       .col-md-6
+      if termos
+      table.table.table-striped
+        thead
+          tr
+            th.text-center Significado em terena
+            th.text-center Significado em português
+            th.text-center Ações
+        tbody   
+        each termo in termos
+          tr
+            td.text-center=termo.emTerena
+            td.text-center=termo.emPortugues
+            td.text-center
+              a.btn(href="/termo/atualiza/#{termo._id}")
+                span.glyphicon.glyphicon-edit
+              button.btn.btn-link.glyphicon.glyphicon-trash(onclick="confirmaRemocao('" + termo.emTerena + "', '"+ termo._id + "')")
+  
+  script.
+    var confirmaRemocao = function(termo, id) {
+      console.log('Entrou');
+      if(confirm("Deseja realmente remover o termo '" + termo + "'?")) {
+        window.location.href = '/termo/' + id;
+      }
+    };  
+    var buscaTermoPortugues = function() {
+            var termo = document.getElementById('pesquisa')
+            window.location.href=encodeURI("/termos/pesquisa/" + termo.value);
+        }     
+
+

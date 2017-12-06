@@ -1,0 +1,76 @@
+extends layout
+//- NOVO TERMO
+
+block content
+    .jumbotron  
+        h1=titulo
+    if mensagem
+        if sucesso       
+            .alert.alert-success=mensagem
+        else
+            .alert.alert-danger=mensagem
+    
+    if termo
+        -var terena = termo.emTerena
+        -var portugues = termo.emPortugues
+        -var frase = termo.aplicacaoFrase
+        -var significadoAplicacao = termo.significadoAplicacaoFrase
+        -var categoriaPadrao = termo.categoria
+        -var multimidia = []
+        
+    .row
+        .col-xs-12.col-md-8
+            form(action="", method="post", role="form")
+                .form-group
+                    label(for="emTerena") Significado em terena:
+                    input#emTerena.form-control(name="emTerena", required="true", value=terena)
+                .form-group
+                    label(for="emPortugues") Significado em português:
+                    input#emPortugues.form-control(name="emPortugues", required="true", value=portugues)
+                .form-group
+                    label(for="aplicacaoFrase") Aplicação em uma frase:
+                    textarea#aplicacaoFrase.form-control(name="aplicacaoFrase", required="true") #{frase}
+                .form-group
+                    label(for="significadoAplicacaoFrase") Significado da aplicação:
+                    textarea#significadoAplicacaoFrase.form-control(name="significadoAplicacaoFrase", required="true") #{significadoAplicacao}
+                
+                 - var categorias = [ 'Artesanato', 'Brincadeiras', 'Contos', 'Culinária', 'Dança', 'Fauna', 'Flora', 'Moradias'];
+                        
+                .form-group           
+                    label(for="categoria")
+                    select#categoria.form-control(name="categoria", required="true")
+                        each categoria in categorias
+                            option(value="#{categoria || 'categoriaPadrao'}") #{categoria || categoriaPadrao}
+                .form-group
+                    label(for="midia") Adicionar URL de mídia:
+                    .form-inline
+                        - var temp = ''
+                        if termo && termo.multimidia.length > 0                            
+                            each midia in termo.multimidia
+                                - temp += midia.url + " "
+
+                        input#midia.form-control(value="#{'' || temp}")
+                        
+                        a.btn.btn-default(onclick='adicionarMidia()') Adicionar
+                    #mensagemErro.alert.alert-danger(role="alert")
+                    #listaImagens
+                    #listaVideos
+                label.custom-file
+                    input#audio.custom-file-input(type='file')
+                    span.custom-file-control
+
+                .form-group
+                    input#multimidia.form-control(type="hidden", name="multimidia", required="true")
+                    if termo
+                        button.btn.btn-primary(onclick='atualizar(id)') Atualizar
+                    else
+                        button.btn.btn-primary Cadastrar
+
+    script.
+        var atualizar = function(id){
+             window.location.href = '/termo/atualiza/' + id;
+        };   
+        
+       
+
+

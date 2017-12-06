@@ -1,0 +1,35 @@
+extends layout
+
+block content
+    .jumbotron  
+
+         h1=titulo
+    if mensagem
+        if sucesso       
+            .alert.alert-success=mensagem
+        else
+            .alert.alert-danger=mensagem
+    
+      .row
+        .container
+          .col-md-6.col-md-push-3
+           
+            p.lead
+              
+            form(role='form', action="/register",method="post", style='max-width: 300px;')
+              .form-group
+                input.form-control(type='text', name="name", placeholder='Informe seu nome')
+              .form-group
+                input.form-control(type='text', name="email", placeholder='Informe seu email')
+              .form-group
+                input.form-control(type='password', name="password", placeholder='Digite sua senha')
+              button.btn.btn-default(type='submit') Entre
+              &nbsp;
+              a(href='/')
+                button.btn.btn-primary(type="button") Cancel
+
+
+
+
+
+ 
